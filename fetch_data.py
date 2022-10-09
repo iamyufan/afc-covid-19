@@ -182,6 +182,10 @@ def preprocess(covid_df):
 
 
 def main():
+    # create a folder if it doesn't exist
+    if not os.path.exists('oriCSV'):
+        os.makedirs('oriCSV')
+
     # fetch covid data
     print('Fetching covid data...')
     covid_df = fetch_data()
@@ -197,6 +201,10 @@ def main():
     with open('data.json', 'w') as f:
         json.dump(data, f, indent = 4)
     print('Done!')
+
+    # remove the csv file and folder
+    os.remove('oriCSV/stateData.csv')
+    os.rmdir('oriCSV')
 
 
 if __name__ == '__main__':
