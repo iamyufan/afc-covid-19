@@ -2,6 +2,7 @@ import psycopg2
 import requests
 import pandas as pd
 import json
+import os
 from uszipcode import SearchEngine
 
 
@@ -40,8 +41,14 @@ def fetch_data():
     vacc_df = pd.read_csv('oriCSV/vaccinationData.csv')
     vacc_df.rename(
         columns={'Date': 'date', 'Province_State': 'state'}, inplace=True)
-    covid_df = pd.merge(covid_df, vacc_df, on=['date', 'state'], how='outer')
 
+    # Delete the two csv files
+    print("> Deleting csv files")
+    os.remove('oriCSV/covidData.csv')
+    os.remove('oriCSV/vaccinationData.csv')
+
+    covid_df = pd.merge(covid_df, vacc_df, on=['date', 'state'], how='outer')
+    
     return covid_df
 
 
