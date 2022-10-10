@@ -49,32 +49,10 @@ jobs:
           # File pattern used for `git add`. For example `src/*.js`
           file_pattern: data.json
 
-  # This workflow contains a single job called "update-result"
-  update-result:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      # Setup Python
-      - name: setup python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8 #install the python needed
-      
-      # Pip install
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      
-      # Runs fetch_problems_all.py
+      # Runs calculate.py
       - name: Run calculate.py
         run: python calculate.py
-      
+
       # Commit results/*
       - name: Update resources
         uses: test-room-7/action-update-file@v1
@@ -83,4 +61,3 @@ jobs:
           file-path: results/*.csv
           commit-msg: 'afc: update results'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
