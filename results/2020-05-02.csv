@@ -1,4 +1,4 @@
-state_id,state_name,state_abbr,risk_level,population2021,daily_new_new_cases_per_100k,7d_rolling_avg_new_cases_per_100k,daily_new_new_deaths_per_100k,7d_rolling_avg_new_deaths_per_100k,daily_percentage_of_people_who_received_at_least_one_dose,daily_percentage_of_people_who_are_fully_vaccinated
+state_id,state_name,state_abbr,risk_level,population2021,daily_new_cases_per_100k,7d_rolling_avg_new_cases_per_100k,daily_new_deaths_per_100k,7d_rolling_avg_new_deaths_per_100k,daily_percentage_of_people_who_received_at_least_one_dose,daily_percentage_of_people_who_are_fully_vaccinated
 1,Alabama,AL,2,5039877,6.289836041633556,3.9626817423180305,-0.019841754074553804,0.2513288849443482,0.0,0.0
 2,Alaska,AK,1,732673,0.1364865362856281,0.5069499919180472,0.0,0.0,0.0,0.0
 3,Arizona,AZ,2,7276316,5.524773800368209,4.091552452013983,0.3160940234041512,0.12597950208136463,0.0,0.0

@@ -50,8 +50,8 @@ jobs:
           file_pattern: data.json
 
       # Runs calculate.py
-      - name: Run calculate.py
-        run: python calculate.py
+      - name: Run calculate_risk_daily.py
+        run: python calculate_risk_daily.py
 
       # Commit results/*
       - name: Update resources

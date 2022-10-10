@@ -57,6 +57,8 @@ def calculate_features():
         dates = list(state_data['dates'].keys())
         # Sort the dates
         dates.sort()
+        # Filter out today
+        dates = dates[:-1]
         # Iterate through each date
         for date in dates:
             # Get the date data
@@ -70,12 +72,12 @@ def calculate_features():
             # Get the population
             population = state_data['population2021']
             # Calculate the daily new new_cases per 100,000 people
-            daily_new_new_cases_per_100k = new_cases / population * 100000
+            daily_new_cases_per_100k = new_cases / population * 100000
             # Store the result
             if state_id not in result:
                 result[state_id] = {}
             result[state_id][date] = {
-                'daily_new_new_cases_per_100k': daily_new_new_cases_per_100k,
+                'daily_new_cases_per_100k': daily_new_cases_per_100k,
             }
 
     # Calculate the 7d rolling average of new_cases per 100,000 people
@@ -89,24 +91,24 @@ def calculate_features():
         for date in dates:
             # Get the daily new new_cases per 100,000 people
             try:
-                daily_new_new_cases_per_100k = result[state_id][date]['daily_new_new_cases_per_100k']
+                daily_new_cases_per_100k = result[state_id][date]['daily_new_cases_per_100k']
             except KeyError:
                 print(
                     f'No daily new new_cases per 100,000 people for {state_id} on {date}')
                 return
             # For the first 6 days, the 7d rolling average is the same as the daily new new_cases per 100,000 people
             if dates.index(date) < 6:
-                result[state_id][date]['7d_rolling_avg_new_cases_per_100k'] = daily_new_new_cases_per_100k
+                result[state_id][date]['7d_rolling_avg_new_cases_per_100k'] = daily_new_cases_per_100k
             # For the rest of the days, the 7d rolling average is the average of the daily new new_cases per 100,000 people of the last 7 days
             else:
                 # Get the daily new new_cases per 100,000 people of the last 7 days
                 last_7_days = dates[dates.index(
                     date) - 6:dates.index(date) + 1]
-                last_7_days_daily_new_new_cases_per_100k = [
-                    result[state_id][d]['daily_new_new_cases_per_100k'] for d in last_7_days]
+                last_7_days_daily_new_cases_per_100k = [
+                    result[state_id][d]['daily_new_cases_per_100k'] for d in last_7_days]
                 # Calculate the 7d rolling average of new_cases per 100,000 people
                 seven_day_rolling_avg_new_cases_per_100k = sum(
-                    last_7_days_daily_new_new_cases_per_100k) / len(last_7_days_daily_new_new_cases_per_100k)
+                    last_7_days_daily_new_cases_per_100k) / len(last_7_days_daily_new_cases_per_100k)
                 result[state_id][date]['7d_rolling_avg_new_cases_per_100k'] = seven_day_rolling_avg_new_cases_per_100k
 
     # Calculate the daily new new_deaths per 100,000 people
@@ -118,6 +120,8 @@ def calculate_features():
         dates = list(state_data['dates'].keys())
         # Sort the dates
         dates.sort()
+        # Filter out today
+        dates = dates[:-1]
         # Iterate through each date
         for date in dates:
             # Get the date data
@@ -127,9 +131,9 @@ def calculate_features():
             # Get the population
             population = state_data['population2021']
             # Calculate the daily new new_deaths per 100,000 people
-            daily_new_new_deaths_per_100k = new_deaths / population * 100000
+            daily_new_deaths_per_100k = new_deaths / population * 100000
             # Store the result
-            result[state_id][date]['daily_new_new_deaths_per_100k'] = daily_new_new_deaths_per_100k
+            result[state_id][date]['daily_new_deaths_per_100k'] = daily_new_deaths_per_100k
 
     # Calculate the 7d rolling average of new_deaths per 100,000 people
     print('> Calculating 7d rolling average of new_deaths per 100,000 people...')
@@ -141,21 +145,21 @@ def calculate_features():
         # Iterate through each date
         for date in dates:
             # Get the daily new new_deaths per 100,000 people
-            daily_new_new_deaths_per_100k = result[state_id][date]['daily_new_new_deaths_per_100k']
+            daily_new_deaths_per_100k = result[state_id][date]['daily_new_deaths_per_100k']
             # Get the previous 6 days
             prev_dates = dates[max(0, dates.index(date) - 6):dates.index(date)]
             # Get the previous 6 days' daily new new_deaths per 100,000 people
-            prev_daily_new_new_deaths_per_100k = [
-                result[state_id][prev_date]['daily_new_new_deaths_per_100k'] for prev_date in prev_dates]
+            prev_daily_new_deaths_per_100k = [
+                result[state_id][prev_date]['daily_new_deaths_per_100k'] for prev_date in prev_dates]
             # Calculate the 7d rolling average
             # For the first 6 days, the 7d rolling average is the same as the daily new new_deaths per 100,000 people
             if dates.index(date) < 6:
-                result[state_id][date]['7d_rolling_avg_new_deaths_per_100k'] = daily_new_new_deaths_per_100k
+                result[state_id][date]['7d_rolling_avg_new_deaths_per_100k'] = daily_new_deaths_per_100k
             # For the rest of the days, the 7d rolling average is the average of the daily new new_deaths per 100,000 people of the last 7 days
             else:
                 # Calculate the 7d rolling average of new_deaths per 100,000 people
                 seven_day_rolling_avg_new_deaths_per_100k = sum(
-                    prev_daily_new_new_deaths_per_100k) / len(prev_daily_new_new_deaths_per_100k)
+                    prev_daily_new_deaths_per_100k) / len(prev_daily_new_deaths_per_100k)
                 result[state_id][date]['7d_rolling_avg_new_deaths_per_100k'] = seven_day_rolling_avg_new_deaths_per_100k
 
     # Calculate the daily percentage of people who received at least one dose
@@ -167,6 +171,8 @@ def calculate_features():
         dates = list(state_data['dates'].keys())
         # Sort the dates
         dates.sort()
+        # Filter out today
+        dates = dates[:-1]
         # Iterate through each date
         for date in dates:
             # Get the date data
@@ -189,6 +195,8 @@ def calculate_features():
         dates = list(state_data['dates'].keys())
         # Sort the dates
         dates.sort()
+        # Filter out today
+        dates = dates[:-1]
         # Iterate through each date
         for date in dates:
             # Get the date data
@@ -204,6 +212,7 @@ def calculate_features():
 
     return result, dates
 
+
 def calculate_risk_level(state_data):
     '''
     Calculating the risk level by metrics
@@ -215,9 +224,7 @@ def calculate_risk_level(state_data):
         risk_level (1-4)
     '''
     # Get the features
-    daily_new_new_cases_per_100k = state_data['daily_new_new_cases_per_100k']
     seven_day_rolling_avg_new_cases_per_100k = state_data['7d_rolling_avg_new_cases_per_100k']
-    daily_new_new_deaths_per_100k = state_data['daily_new_new_deaths_per_100k']
     seven_day_rolling_avg_new_deaths_per_100k = state_data['7d_rolling_avg_new_deaths_per_100k']
     daily_percentage_of_people_who_received_at_least_one_dose = state_data[
         'daily_percentage_of_people_who_received_at_least_one_dose']
@@ -269,10 +276,10 @@ def calculate_risk_level(state_data):
     w_case = 0.6
     w_death = 0.3
     w_vaccination = 0.2
-    risk_level = w_case * risk_level_by_new_cases + w_death * risk_level_by_new_deaths + w_vaccination * risk_level_by_vaccination
+    risk_level = w_case * risk_level_by_new_cases + w_death * \
+        risk_level_by_new_deaths + w_vaccination * risk_level_by_vaccination
 
     return int(risk_level)
-
 
 
 def main():
@@ -303,7 +310,7 @@ def main():
         # Calculate the risk level
         df['risk_level'] = df.apply(calculate_risk_level, axis=1)
         # Reorder the columns
-        df = df[['state_id', 'state_name', 'state_abbr', 'risk_level', 'population2021', 'daily_new_new_cases_per_100k', '7d_rolling_avg_new_cases_per_100k', 'daily_new_new_deaths_per_100k',
+        df = df[['state_id', 'state_name', 'state_abbr', 'risk_level', 'population2021', 'daily_new_cases_per_100k', '7d_rolling_avg_new_cases_per_100k', 'daily_new_deaths_per_100k',
                  '7d_rolling_avg_new_deaths_per_100k', 'daily_percentage_of_people_who_received_at_least_one_dose', 'daily_percentage_of_people_who_are_fully_vaccinated']]
         # Save the DataFrame to a csv file
         df.to_csv(f'./results/{date}.csv', index=False)
