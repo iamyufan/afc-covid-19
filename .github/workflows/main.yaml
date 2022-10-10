@@ -49,10 +49,25 @@ jobs:
           # File pattern used for `git add`. For example `src/*.js`
           file_pattern: data.json
 
-      # Runs calculate_risk_daily.py
-      - name: Run calculate_risk_daily.py
-        run: python calculate_risk_daily.py
-
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Commit files
+        uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:
-          commit_message: 'afc: daily risk level result added'
+          add: '.'
+          message: 'afc: update results'
+
+      # # Commit data.json
+      # - name: Commit data.json
+      #   uses: stefanzweifel/git-auto-commit-action@v4.12.0
+      #   with:
+      #     # Commit message
+      #     commit_message: 'afc: update data.json'
+      #     # File pattern used for `git add`. For example `src/*.js`
+      #     file_pattern: data.json
+
+      # # Runs calculate_risk_daily.py
+      # - name: Run calculate_risk_daily.py
+      #   run: python calculate_risk_daily.py
+
+      # - uses: stefanzweifel/git-auto-commit-action@v4
+      #   with:
+      #     commit_message: 'afc: daily risk level result added'
