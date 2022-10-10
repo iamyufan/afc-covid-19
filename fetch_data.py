@@ -48,6 +48,15 @@ def fetch_data():
     os.remove('oriCSV/vaccinationData.csv')
 
     covid_df = pd.merge(covid_df, vacc_df, on=['date', 'state'], how='outer')
+
+    # Change the case and death data from cumulative to daily
+    print("> Changing case and death data from cumulative to daily")
+    covid_df['cases'] = covid_df['cases'].diff()
+    covid_df['deaths'] = covid_df['deaths'].diff()
+
+    # Fill the null values with 0
+    print("> Filling null values with 0")
+    covid_df.fillna(0, inplace=True)
     
     return covid_df
 
