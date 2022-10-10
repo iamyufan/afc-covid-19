@@ -111,9 +111,9 @@ def preprocess(covid_df):
     center_df = pd.DataFrame(
         rows, columns=['center_id', 'center_name', 'county_id', 'state_id', 'zip_code'])
 
-    # Save the center_df to ./centers.csv
-    print("> Saving data to csv file")
-    center_df.to_csv('./centers.csv', index=False)
+    # # Save the center_df to ./centers.csv
+    # print("> Saving data to csv file")
+    # center_df.to_csv('./centers.csv', index=False)
 
     # Execute the query: select all states from yfz.states
     print("> Querying data from yfz.states")

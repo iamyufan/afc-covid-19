@@ -174,7 +174,12 @@ def calculate_risk_by_date(date):
     print('> Calculating the risk level for centers...')
     # read in the centers data at center.csv
     centers_df = pd.read_csv('centers.csv')
-    centers_df['risk_level'] = centers_df['state_id'].apply(lambda x: state_id_to_risk_level.get(x))
+    centers_df['risk_level'] = centers_df['state_id'].apply(lambda x: state_id_to_risk_level.get(str(int(x))))
+    centers_df['state_abbr'] = centers_df['state_id'].apply(lambda x: data[str(int(x))]['state_abbr'])
+    centers_df['7d_rolling_avg_new_cases_per_100k'] = centers_df['state_id'].apply(lambda x: result[str(int(x))]['7d_rolling_avg_new_cases_per_100k'])
+    centers_df['7d_rolling_avg_new_deaths_per_100k'] = centers_df['state_id'].apply(lambda x: result[str(int(x))]['7d_rolling_avg_new_deaths_per_100k'])
+    centers_df['daily_percentage_of_people_who_received_at_least_one_dose'] = centers_df['state_id'].apply(lambda x: result[str(int(x))]['daily_percentage_of_people_who_received_at_least_one_dose'])
+    centers_df['daily_percentage_of_people_who_are_fully_vaccinated'] = centers_df['state_id'].apply(lambda x: result[str(int(x))]['daily_percentage_of_people_who_are_fully_vaccinated'])
 
     return df, centers_df
 
