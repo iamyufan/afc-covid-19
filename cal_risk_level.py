@@ -37,7 +37,10 @@ def main():
 
     # Save the result to the results folder
     df_yesterday.to_csv(f'./results/{yesterday}.csv', index=False)
-    centers_df.to_csv(f'./center_risk/{yesterday}.csv', index=False)
+    # if the folder does not exist, create it
+    if not os.path.exists('./results/centers'):
+        os.makedirs('./results/centers')
+    centers_df.to_csv(f'./results/centers/{yesterday}.csv', index=False)
 
 
 if __name__ == '__main__':
