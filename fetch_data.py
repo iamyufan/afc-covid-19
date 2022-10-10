@@ -48,15 +48,6 @@ def fetch_data():
     os.remove('oriCSV/vaccinationData.csv')
 
     covid_df = pd.merge(covid_df, vacc_df, on=['date', 'state'], how='outer')
-
-    # Change the case and death data from cumulative to daily
-    print("> Changing case and death data from cumulative to daily")
-    covid_df['cases'] = covid_df['cases'].diff()
-    covid_df['deaths'] = covid_df['deaths'].diff()
-
-    # Fill the null values with 0
-    print("> Filling null values with 0")
-    covid_df.fillna(0, inplace=True)
     
     return covid_df
 
@@ -185,6 +176,19 @@ def preprocess(covid_df):
     curs.close()
     # Close the connection
     conn.close()
+
+    # Add a "new_cases" and "new_deaths" to make cases and deaths from cumulative to daily
+    print("> Adding new_cases and new_deaths")
+    for state_id in data:
+        dates = list(data[state_id]['dates'].keys())
+        dates.sort()
+        for i in range(0, len(dates)):
+            if i == 0:
+                data[state_id]['dates'][dates[i]]['new_cases'] = data[state_id]['dates'][dates[i]]['cases']
+                data[state_id]['dates'][dates[i]]['new_deaths'] = data[state_id]['dates'][dates[i]]['deaths']
+            else:
+                data[state_id]['dates'][dates[i]]['new_cases'] = data[state_id]['dates'][dates[i]]['cases'] - data[state_id]['dates'][dates[i-1]]['cases']
+                data[state_id]['dates'][dates[i]]['new_deaths'] = data[state_id]['dates'][dates[i]]['deaths'] - data[state_id]['dates'][dates[i-1]]['deaths']
 
     return data
 
