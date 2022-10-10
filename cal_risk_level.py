@@ -33,10 +33,11 @@ def main():
         last_date, '%Y-%m-%d') - datetime.timedelta(days=1)
     yesterday = yesterday.strftime('%Y-%m-%d')
     print(f'Calculating the risk level for {yesterday}')
-    df_yesterday = calculate_risk_by_date(yesterday)
+    df_yesterday, centers_df = calculate_risk_by_date(yesterday)
 
     # Save the result to the results folder
-    df_yesterday.to_csv(f'{yesterday}.csv', index=False)
+    df_yesterday.to_csv(f'./results/{yesterday}.csv', index=False)
+    centers_df.to_csv(f'./center_risk/{yesterday}.csv', index=False)
 
 
 if __name__ == '__main__':
