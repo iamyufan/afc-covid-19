@@ -168,13 +168,13 @@ def calculate_risk_by_date(date):
     df = df[['state_id', 'state_name', 'state_abbr', 'risk_level', 'population2021', 'daily_new_cases_per_100k', '7d_rolling_avg_new_cases_per_100k', 'daily_new_deaths_per_100k',
                 '7d_rolling_avg_new_deaths_per_100k', 'daily_percentage_of_people_who_received_at_least_one_dose', 'daily_percentage_of_people_who_are_fully_vaccinated']]
 
-
+    # State_id to risk level mapping
+    state_id_to_risk_level = df[['state_id', 'risk_level']].set_index('state_id').to_dict()['risk_level']
     # Give another table containing the risk level for centers given the risk level of the state
     print('> Calculating the risk level for centers...')
     # read in the centers data at center.csv
     centers_df = pd.read_csv('centers.csv')
-    # merge the centers_df with the risk level df
-    centers_df = centers_df.merge(df, on='state_id')
+    centers_df['risk_level'] = centers_df['state_id'].apply(lambda x: state_id_to_risk_level.get(x))
 
     return df, centers_df
 

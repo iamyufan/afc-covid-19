@@ -25,13 +25,8 @@ def main():
 
     CSV files in the results folder are named as <YYYY-MM-DD>.csv
     '''
-    # Get the last date in the results folder
-    last_date = get_last_date()
-
     # Get the risk dataframe of yesterday
-    yesterday = datetime.datetime.strptime(
-        last_date, '%Y-%m-%d') - datetime.timedelta(days=1)
-    yesterday = yesterday.strftime('%Y-%m-%d')
+    yesterday = (datetime.datetime.now() - datetime.timedelta(days=2)).strftime('%Y-%m-%d')
     print(f'Calculating the risk level for {yesterday}')
     df_yesterday, centers_df = calculate_risk_by_date(yesterday)
 
