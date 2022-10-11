@@ -63,7 +63,7 @@ def calculate_risk_level(state_data):
     # Calculate the risk level
     # weights for each metric
     w_case = 0.6
-    w_death = 0.3
+    w_death = 0.2
     w_vaccination = 0.2
     risk_level = w_case * risk_level_by_new_cases + w_death * \
         risk_level_by_new_deaths + w_vaccination * risk_level_by_vaccination
